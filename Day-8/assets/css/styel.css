@@ -1,0 +1,41 @@
+body {
+    font-family: Arial;
+    margin: 20px;
+    background: #0f172a;
+    color: white;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    background: #3b82f6;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+.note {
+    background: #1e293b;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.note button {
+    background: red;
+    float: right;
+}
