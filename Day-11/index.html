@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day-11</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+</head>
+
+<body>
+
+    <div class="combo-flash" id="comboFlash">🔥 STREAK!</div>
+
+    <div class="app">
+
+        <div class="screen active" id="screenStart">
+            <div class="start-hero">
+                <div class="brand-tag">QUIZ<br>MASTER</div>
+                <div class="brand-sub">Ultimate Knowledge Challenge</div>
+
+                <div class="stat-row">
+                    <div class="stat-pill">
+                        <div class="num">10</div>
+                        <div class="lbl">Questions</div>
+                    </div>
+                    <div class="stat-pill">
+                        <div class="num">20s</div>
+                        <div class="lbl">Per Round</div>
+                    </div>
+                    <div class="stat-pill">
+                        <div class="num">5</div>
+                        <div class="lbl">Categories</div>
+                    </div>
+                </div>
+
+                <button class="btn-start" onclick="startQuiz()">START QUIZ</button>
+            </div>
+        </div>
+
+        <div class="screen" id="screenQuiz">
+            <div class="quiz-header">
+                <div class="q-counter">QUESTION <span id="qNum">1</span>/10</div>
+                <div class="score-badge"><small>SCORE</small><span id="scoreDisplay">0</span></div>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill" style="width:0%"></div>
+            </div>
+
+            <div class="timer-wrap">
+                <div class="timer-ring-wrap">
+                    <svg width="90" height="90" viewBox="0 0 90 90">
+                        <circle class="timer-ring-bg" cx="45" cy="45" r="36" />
+                        <circle class="timer-ring-fill" id="timerRing" cx="45" cy="45" r="36" />
+                    </svg>
+                    <div class="timer-num" id="timerNum">20</div>
+                </div>
+                <div class="timer-label">Seconds Left</div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-category" id="qCategory">Science</div>
+                <div class="question-text" id="qText">Loading question...</div>
+            </div>
+
+            <div class="options-grid" id="optionsGrid"></div>
+
+            <div class="feedback-bar" id="feedbackBar"></div>
+            <button class="btn-next" id="btnNext" onclick="nextQuestion()">NEXT QUESTION →</button>
+        </div>
+
+        <div class="screen" id="screenResults">
+            <div class="results-wrap">
+                <div class="results-title" id="resultsTitle">FINAL SCORE</div>
+                <div class="results-grade" id="resultsGrade">A</div>
+                <div class="results-tagline" id="resultsTagline">Outstanding performance!</div>
+
+                <div class="results-stats">
+                    <div class="res-stat">
+                        <div class="big" id="rCorrect">0</div>
+                        <div class="lbl">Correct</div>
+                    </div>
+                    <div class="res-stat">
+                        <div class="big" id="rScore">0</div>
+                        <div class="lbl">Score</div>
+                    </div>
+                    <div class="res-stat">
+                        <div class="big" id="rStreak">0</div>
+                        <div class="lbl">Best Streak</div>
+                    </div>
+                </div>
+
+                <div class="review-list" id="reviewList"></div>
+
+                <button class="btn-restart" onclick="restartQuiz()">PLAY AGAIN</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./assets/js/script.js"></script>
+
+</body>
+
+</html>
