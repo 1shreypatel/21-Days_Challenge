@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Day-12</title>
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+</head>
+
+<body>
+
+    <div class="generator-card">
+        <h1>Password Architect</h1>
+
+        <div class="password-area">
+            <input type="text" id="passwordOutput" readonly placeholder="Your secure password"
+                aria-label="Generated password">
+        </div>
+
+        <div class="controls">
+            <div class="options">
+                <label class="option-item">
+                    <input type="checkbox" id="includeUppercase" checked> A-Z (Uppercase)
+                </label>
+                <label class="option-item">
+                    <input type="checkbox" id="includeLowercase" checked> a-z (Lowercase)
+                </label>
+                <label class="option-item">
+                    <input type="checkbox" id="includeNumbers" checked> 0-9 (Numbers)
+                </label>
+                <label class="option-item">
+                    <input type="checkbox" id="includeSymbols" checked> !@#$%^&* (Symbols)
+                </label>
+            </div>
+        </div>
+
+        <button class="generate-btn" id="generateBtn">
+            <span></span> Generate New Password
+        </button>
+    </div>
+
+    <div id="toastMessage" class="toast-msg">🔐 New password generated!</div>
+
+    <script src="./assets/js/script.js"></script>
+
+</body>
+
+</html>
