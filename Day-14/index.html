@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day-14</title>
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+</head>
+
+<body>
+
+    <h1 style="margin-bottom:30px;">Reusable Modal Popup</h1>
+
+    <div class="btn-group">
+        <button onclick="openModal('loginModal')">Open Login</button>
+        <button onclick="openModal('deleteModal')">Delete Popup</button>
+    </div>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
+            <h2>Login Required</h2>
+            <p>Please login to continue using this feature.</p>
+            <div class="modal-footer">
+                <button class="cancel" onclick="closeModal('loginModal')">Cancel</button>
+                <button class="confirm">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="deleteModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('deleteModal')">&times;</button>
+            <h2>Delete Item?</h2>
+            <p>This action cannot be undone. Are you sure?</p>
+            <div class="modal-footer">
+                <button class="cancel" onclick="closeModal('deleteModal')">No</button>
+                <button class="confirm">Yes Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/js/script.js"></script>
+
+</body>
+
+</html>
