@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day-15</title>
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="grain"></div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="flex items-center justify-between p-6 border-b" style="border-color: rgba(45,36,32,0.1);">
+            <h3 class="text-lg font-semibold tracking-tight" style="font-family:'Syne',sans-serif;">Your Cart</h3>
+            <button onclick="toggleCart()" class="p-1 hover:opacity-60 transition-opacity">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6" id="cartItems">
+        </div>
+        <div class="p-6 border-t" style="border-color: rgba(45,36,32,0.1);" id="cartFooter">
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="quickViewModal" onclick="closeQuickView(event)">
+        <div class="modal-content" id="quickViewContent">
+        </div>
+    </div>
+
+    <nav class="fixed top-0 left-0 right-0 z-40 px-6 py-4 flex items-center justify-between mix-blend-difference">
+        <a href="#" class="text-[#F7F5F0] text-lg font-semibold tracking-tight"
+            style="font-family:'Syne',sans-serif;">MAISON</a>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="#"
+                class="text-[#F7F5F0] text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">Shop</a>
+            <a href="#"
+                class="text-[#F7F5F0] text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">Collections</a>
+            <a href="#"
+                class="text-[#F7F5F0] text-xs font-medium uppercase tracking-widest hover:opacity-60 transition-opacity">About</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="text-[#F7F5F0] hover:opacity-60 transition-opacity">
+                <i data-lucide="search" class="w-5 h-5"></i>
+            </button>
+            <button class="text-[#F7F5F0] hover:opacity-60 transition-opacity relative" onclick="toggleCart()">
+                <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                <span id="cartBadge"
+                    class="absolute -top-2 -right-2 bg-[#C49A5A] text-[#2D2420] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+            </button>
+            <button class="md:hidden text-[#F7F5F0]" onclick="toggleMobileMenu()">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-[#2D2420] z-45 flex flex-col items-center justify-center gap-8 transition-all duration-500"
+        style="z-index:45; clip-path: circle(0% at calc(100% - 2.5rem) 2rem);">
+        <a href="#" class="text-[#F7F5F0] text-2xl font-medium tracking-tight" style="font-family:'Syne',sans-serif;"
+            onclick="toggleMobileMenu()">Shop</a>
+        <a href="#" class="text-[#F7F5F0] text-2xl font-medium tracking-tight" style="font-family:'Syne',sans-serif;"
+            onclick="toggleMobileMenu()">Collections</a>
+        <a href="#" class="text-[#F7F5F0] text-2xl font-medium tracking-tight" style="font-family:'Syne',sans-serif;"
+            onclick="toggleMobileMenu()">About</a>
+    </div>
+
+    <section class="relative min-h-[70vh] md:min-h-[80vh] flex flex-col justify-end pb-12 px-4 md:px-8 overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://picsum.photos/seed/maison-hero-shop/1920/1080.jpg" alt=""
+                class="w-full h-full object-cover" style="filter: brightness(0.5) contrast(1.1) saturate(0.3);">
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto w-full">
+            <p class="text-xs font-medium uppercase tracking-[0.2em] mb-4" style="color: rgba(247,245,240,0.5);">Autumn
+                / Winter 2025</p>
+            <h1 class="text-4xl md:text-6xl lg:text-8xl font-medium tracking-tighter leading-[0.85]"
+                style="color: #F7F5F0; font-family:'Syne',sans-serif;">
+                Curated<br>Essentials
+            </h1>
+            <p class="mt-6 text-base md:text-lg max-w-md" style="color: rgba(247,245,240,0.6);">
+                Thoughtfully designed objects for everyday living. Each piece tells a story of craft and intention.
+            </p>
+        </div>
+        <div class="absolute -bottom-4 -right-4 md:bottom-8 md:right-8 text-[6rem] md:text-[12rem] lg:text-[18rem] font-bold leading-none tracking-tighter opacity-[0.06] select-none pointer-events-none"
+            style="color: #F7F5F0; font-family:'Syne',sans-serif;">
+            25
+        </div>
+    </section>
+
+    <div class="py-4 overflow-hidden border-y" style="border-color: rgba(45,36,32,0.1); background: var(--bg-alt);">
+        <div class="flex whitespace-nowrap">
+            <div class="marquee-track flex items-center gap-8 text-xs font-semibold uppercase tracking-[0.15em]"
+                style="color: var(--text-muted);">
+                <span>Free Shipping Over $150</span><span class="text-[#C49A5A]">✦</span>
+                <span>Handcrafted with Care</span><span class="text-[#C49A5A]">✦</span>
+                <span>30-Day Returns</span><span class="text-[#C49A5A]">✦</span>
+                <span>Sustainable Materials</span><span class="text-[#C49A5A]">✦</span>
+                <span>Free Shipping Over $150</span><span class="text-[#C49A5A]">✦</span>
+                <span>Handcrafted with Care</span><span class="text-[#C49A5A]">✦</span>
+                <span>30-Day Returns</span><span class="text-[#C49A5A]">✦</span>
+                <span>Sustainable Materials</span><span class="text-[#C49A5A]">✦</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24">
+
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] mb-3" style="color: var(--accent);">
+                    Collection</p>
+                <h2 class="text-3xl md:text-5xl font-medium tracking-tighter leading-[1.1]"
+                    style="font-family:'Syne',sans-serif;">All Products</h2>
+            </div>
+            <div class="relative" id="sortWrapper">
+                <button onclick="toggleSort()"
+                    class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] px-4 py-3 border rounded-sm transition-colors hover:border-[#2D2420]"
+                    style="border-color: rgba(45,36,32,0.15); color: var(--text-muted);">
+                    <i data-lucide="arrow-up-down" class="w-3.5 h-3.5"></i>
+                    <span id="sortLabel">Sort by: Featured</span>
+                </button>
+                <div class="sort-dropdown" id="sortDropdown">
+                    <button class="w-full text-left px-4 py-3 text-sm hover:bg-[#E8E4DA] transition-colors"
+                        onclick="sortProducts('featured')">Featured</button>
+                    <button class="w-full text-left px-4 py-3 text-sm hover:bg-[#E8E4DA] transition-colors"
+                        onclick="sortProducts('price-asc')">Price: Low to High</button>
+                    <button class="w-full text-left px-4 py-3 text-sm hover:bg-[#E8E4DA] transition-colors"
+                        onclick="sortProducts('price-desc')">Price: High to Low</button>
+                    <button class="w-full text-left px-4 py-3 text-sm hover:bg-[#E8E4DA] transition-colors"
+                        onclick="sortProducts('name')">Name: A–Z</button>
+                    <button class="w-full text-left px-4 py-3 text-sm hover:bg-[#E8E4DA] transition-colors"
+                        onclick="sortProducts('rating')">Top Rated</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-10" id="filterChips">
+            <button class="filter-chip active" onclick="filterProducts('all')">All</button>
+            <button class="filter-chip" onclick="filterProducts('ceramics')">Ceramics</button>
+            <button class="filter-chip" onclick="filterProducts('textiles')">Textiles</button>
+            <button class="filter-chip" onclick="filterProducts('lighting')">Lighting</button>
+            <button class="filter-chip" onclick="filterProducts('furniture')">Furniture</button>
+            <button class="filter-chip" onclick="filterProducts('accessories')">Accessories</button>
+        </div>
+
+        <p class="text-xs font-medium uppercase tracking-[0.15em] mb-6" style="color: var(--text-muted);">
+            Showing <span id="productCount">12</span> products
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="productGrid">
+        </div>
+
+        <div class="hidden text-center py-20" id="emptyState">
+            <i data-lucide="package-x" class="w-12 h-12 mx-auto mb-4"
+                style="color: var(--text-muted); opacity:0.3;"></i>
+            <p class="text-lg font-medium" style="font-family:'Syne',sans-serif;">No products found</p>
+            <p class="text-sm mt-2" style="color: var(--text-muted);">Try adjusting your filters</p>
+        </div>
+    </section>
+
+    <footer class="border-t py-12 px-4 md:px-8" style="border-color: rgba(45,36,32,0.1); background: var(--bg-alt);">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-6">
+                <span class="text-lg font-semibold tracking-tight" style="font-family:'Syne',sans-serif;">MAISON</span>
+                <span class="text-xs" style="color: var(--text-muted);">© 2025. All rights reserved.</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="#" class="text-xs uppercase tracking-widest hover:opacity-60 transition-opacity"
+                    style="color: var(--text-muted);">Privacy</a>
+                <a href="#" class="text-xs uppercase tracking-widest hover:opacity-60 transition-opacity"
+                    style="color: var(--text-muted);">Terms</a>
+                <a href="#" class="text-xs uppercase tracking-widest hover:opacity-60 transition-opacity"
+                    style="color: var(--text-muted);">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/js/script.js"></script>
+
+</body>
+
+</html>
