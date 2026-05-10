@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day-18</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+</head>
+
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon"><i class="fas fa-tools" style="color:white"></i></div>
+            <span class="logo-text">ServiceHub</span>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">P</div>
+            <div class="user-info">
+                <div class="name">Priya Sharma</div>
+                <div class="role">AC Technician · Surat</div>
+            </div>
+            <div class="online-dot" id="online-dot"></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main Menu</div>
+            <button class="nav-item active" onclick="goto('dashboard',this)"><i class="fas fa-th-large ni"></i>
+                Dashboard</button>
+            <button class="nav-item" onclick="goto('bookings',this)"><i class="fas fa-calendar-check ni"></i> Bookings
+                <span class="nav-badge" id="nb-pending">3</span></button>
+            <button class="nav-item" onclick="goto('schedule',this)"><i class="fas fa-clock ni"></i> Aaj ka
+                Schedule</button>
+            <button class="nav-item" onclick="goto('earnings',this)"><i class="fas fa-wallet ni"></i> Kamai /
+                Earnings</button>
+            <div class="nav-label" style="margin-top:8px">Account</div>
+            <button class="nav-item" onclick="goto('reviews',this)"><i class="fas fa-star ni"></i> Reviews <span
+                    class="nav-badge blue">4.9</span></button>
+            <button class="nav-item" onclick="goto('profile',this)"><i class="fas fa-user-circle ni"></i>
+                Profile</button>
+            <button class="nav-item" onclick="goto('settings',this)"><i class="fas fa-cog ni"></i> Settings</button>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </aside>
+
+    <div class="main-wrap">
+        <header class="topbar">
+            <div class="topbar-left" id="tb-title">
+                <h2>Dashboard Overview</h2>
+                <p>Aaj: <span id="today-date"></span></p>
+            </div>
+            <div class="topbar-right">
+                <div class="clock-badge" id="live-clock">--:-- --</div>
+                <div style="position:relative">
+                    <div class="icon-btn" onclick="toggleNotif()" id="notif-btn"><i class="fas fa-bell"></i><span
+                            class="notif-dot" id="notif-dot"></span></div>
+                    <div class="notif-panel" id="notif-panel">
+                        <div
+                            style="padding:12px 14px 8px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+                            <span style="font-weight:700;font-size:.87rem">Notifications</span>
+                            <span style="font-size:.73rem;color:var(--blue);cursor:pointer;font-weight:600"
+                                onclick="clearNotifs()">Clear all</span>
+                        </div>
+                        <div id="notif-list">
+                            <div class="ni">
+                                <div class="ni-ico" style="background:#dbeafe;color:#1d4ed8"><i
+                                        class="fas fa-calendar-plus"></i></div>
+                                <div>
+                                    <div class="ni-txt">Nayi booking — Rahul Mehta</div>
+                                    <div class="ni-time">2 min pehle</div>
+                                </div>
+                            </div>
+                            <div class="ni">
+                                <div class="ni-ico" style="background:#d1fae5;color:#065f46"><i
+                                        class="fas fa-rupee-sign"></i></div>
+                                <div>
+                                    <div class="ni-txt">₹799 payment received!</div>
+                                    <div class="ni-time">1 ghante pehle</div>
+                                </div>
+                            </div>
+                            <div class="ni">
+                                <div class="ni-ico" style="background:#fef3c7;color:#92400e"><i class="fas fa-star"></i>
+                                </div>
+                                <div>
+                                    <div class="ni-txt">Naya 5★ review mila!</div>
+                                    <div class="ni-time">3 ghante pehle</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="icon-btn" onclick="document.getElementById('sidebar').classList.toggle('open')"><i
+                        class="fas fa-bars"></i></div>
+            </div>
+        </header>
+
+        <div class="page-content">
+
+            <div class="tab-page active" id="page-dashboard">
+                <div
+                    style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px">
+                    <div>
+                        <h1 style="font-size:1.7rem;font-weight:800;margin-bottom:3px">Namaste, Priya! 👋</h1>
+                        <p style="color:var(--muted);font-size:.87rem">Aapke paas <strong id="d-pend-txt"
+                                style="color:var(--blue)">3 pending requests</strong> hain</p>
+                    </div>
+                    <button class="btn btn-accept btn-lg"
+                        onclick="goto('bookings',document.querySelectorAll('.nav-item')[1])">
+                        <i class="fas fa-calendar-check"></i> Requests Dekho
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="top"><span class="lbl">Aaj ki Kamai</span>
+                            <div class="ico" style="background:#eff6ff;color:var(--blue)"><i class="fas fa-wallet"></i>
+                            </div>
+                        </div>
+                        <div class="val" style="color:var(--blue)">₹1,299</div>
+                        <div class="delta delta-up"><i class="fas fa-arrow-up"></i> +12% kal se</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="top"><span class="lbl">Kul Bookings</span>
+                            <div class="ico" style="background:#ecfdf5;color:var(--green)"><i
+                                    class="fas fa-clipboard-check"></i></div>
+                        </div>
+                        <div class="val">47</div>
+                        <div class="delta delta-neutral"><i class="fas fa-minus"></i> Is mahine: 12</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="top"><span class="lbl">Pending</span>
+                            <div class="ico" style="background:#fffbeb;color:var(--accent)"><i
+                                    class="fas fa-hourglass-half"></i></div>
+                        </div>
+                        <div class="val" style="color:var(--accent)" id="d-stat-pend">3</div>
+                        <div class="delta delta-neutral">Jawab baaki</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="top"><span class="lbl">Rating</span>
+                            <div class="ico" style="background:#fff7ed;color:#f97316"><i class="fas fa-star"></i></div>
+                        </div>
+                        <div class="val" style="color:#f97316">4.9★</div>
+                        <div class="delta delta-up"><i class="fas fa-arrow-up"></i> 124 reviews</div>
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px" class="dash-grid">
+                    <div class="card">
+                        <div class="card-title">Earnings Chart <div class="chart-tabs"><span class="c-tab active"
+                                    onclick="sw1('week',this)">Hafte</span><span class="c-tab"
+                                    onclick="sw1('month',this)">Mahina</span><span class="c-tab"
+                                    onclick="sw1('year',this)">Saal</span></div>
+                        </div>
+                        <div class="card-sub">Daily earnings overview</div>
+                        <div style="position:relative;height:210px"><canvas id="chart1"></canvas></div>
+                    </div>
+                    <div class="card" style="display:flex;flex-direction:column">
+                        <div class="card-title">Aaj ke Jobs</div>
+                        <div class="card-sub">Today's schedule</div>
+                        <div style="flex:1;display:flex;flex-direction:column;gap:8px" id="dash-sched">
+                            <div
+                                style="background:var(--bg);border-radius:11px;padding:11px;border:1px solid var(--border)">
+                                <span class="badge badge-confirm" style="margin-bottom:5px">10:00 AM</span>
+                                <div style="font-weight:700;font-size:.83rem">AC Repair — Standard</div>
+                                <div style="font-size:.73rem;color:var(--muted)">Rahul Mehta · Indiranagar</div>
+                                <button class="btn btn-start" id="dash-start-btn"
+                                    style="margin-top:8px;width:100%;justify-content:center;font-size:.8rem"
+                                    onclick="dashStartJob()"><i class="fas fa-play"></i> Shuru Karo</button>
+                            </div>
+                            <div
+                                style="background:var(--bg);border-radius:11px;padding:11px;border:1px solid var(--border);opacity:.55">
+                                <span class="badge badge-pending" style="margin-bottom:5px">2:00 PM</span>
+                                <div style="font-weight:700;font-size:.83rem">AC Repair — Premium</div>
+                                <div style="font-size:.73rem;color:var(--muted)">Priya Sharma · Whitefield</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-page" id="page-bookings">
+                <div
+                    style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px">
+                    <div>
+                        <h2 style="font-size:1.4rem;font-weight:800">Booking Requests</h2>
+                        <p style="color:var(--muted);font-size:.83rem">Accept ya decline karo</p>
+                    </div>
+                    <div style="display:flex;gap:6px" id="filter-btns">
+                        <button class="btn btn-ghost" style="border-color:var(--blue);color:var(--blue)"
+                            onclick="filterB('all',this)">Sab</button>
+                        <button class="btn btn-ghost" onclick="filterB('pending',this)">Pending</button>
+                        <button class="btn btn-ghost" onclick="filterB('accepted',this)">Accepted</button>
+                        <button class="btn btn-ghost" onclick="filterB('completed',this)">Completed</button>
+                    </div>
+                </div>
+                <div id="b-list"></div>
+            </div>
+
+            <div class="tab-page" id="page-schedule">
+                <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:3px">Aaj ka Schedule</h2>
+                <p style="color:var(--muted);font-size:.83rem;margin-bottom:18px">Confirmed jobs timeline</p>
+                <div class="card" style="max-width:600px">
+                    <div id="tl-list"></div>
+                </div>
+            </div>
+
+            <div class="tab-page" id="page-earnings">
+                <div class="earn-hero">
+                    <div class="earn-dots"></div>
+                    <div style="position:relative;z-index:1">
+                        <p
+                            style="color:rgba(255,255,255,.5);font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">
+                            Is Mahine ki Kul Kamai</p>
+                        <p style="font-size:2.8rem;font-weight:900;margin-bottom:3px">₹32,800</p>
+                        <p style="color:#93c5fd;font-size:.85rem"><i class="fas fa-arrow-up"></i> Pichle mahine se 22%
+                            zyada</p>
+                        <div
+                            style="display:flex;gap:24px;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12)">
+                            <div>
+                                <p style="color:rgba(255,255,255,.45);font-size:.7rem">Completed Jobs</p>
+                                <p style="font-weight:800;font-size:1.15rem">12</p>
+                            </div>
+                            <div>
+                                <p style="color:rgba(255,255,255,.45);font-size:.7rem">Avg per Job</p>
+                                <p style="font-weight:800;font-size:1.15rem">₹2,733</p>
+                            </div>
+                            <div>
+                                <p style="color:rgba(255,255,255,.45);font-size:.7rem">Platform Fee</p>
+                                <p style="font-weight:800;font-size:1.15rem;color:#fca5a5">-₹4,920</p>
+                            </div>
+                            <div>
+                                <p style="color:rgba(255,255,255,.45);font-size:.7rem">Net Earning</p>
+                                <p style="font-weight:800;font-size:1.15rem;color:#86efac">₹27,880</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:16px">
+                    <div class="card-title">Earnings Chart <div class="chart-tabs"><span class="c-tab active"
+                                onclick="sw2('week',this)">Hafte</span><span class="c-tab"
+                                onclick="sw2('month',this)">Mahina</span><span class="c-tab"
+                                onclick="sw2('year',this)">Saal</span></div>
+                    </div>
+                    <div class="card-sub">Kamai ka detailed view</div>
+                    <div style="position:relative;height:240px"><canvas id="chart2"></canvas></div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Recent Transactions</div>
+                    <div class="card-sub">Pichhli payments ka record</div>
+                    <div id="earn-list"></div>
+                </div>
+            </div>
+
+            <div class="tab-page" id="page-reviews">
+                <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:3px">Reviews & Ratings</h2>
+                <p style="color:var(--muted);font-size:.83rem;margin-bottom:18px">Customer feedback</p>
+                <div style="display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:start"
+                    class="review-grid">
+                    <div class="card" style="text-align:center">
+                        <div style="font-size:3.2rem;font-weight:900;color:var(--accent);line-height:1">4.9</div>
+                        <div class="stars" style="font-size:1.1rem;margin:7px 0">★★★★★</div>
+                        <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">124 reviews</p>
+                        <div id="rating-bars"></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Customer Reviews</div>
+                        <div class="card-sub">Sabse naye reviews</div>
+                        <div id="rev-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-page" id="page-profile">
+                <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:3px">Meri Profile</h2>
+                <p style="color:var(--muted);font-size:.83rem;margin-bottom:18px">Apni info update karo</p>
+                <div style="display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start"
+                    class="profile-grid">
+                    <div class="card" style="text-align:center">
+                        <div
+                            style="width:84px;height:84px;background:linear-gradient(135deg,var(--blue),#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.9rem;font-weight:800;color:white;margin:0 auto 14px;box-shadow:0 6px 20px rgba(37,99,235,.3)">
+                            P</div>
+                        <h3 style="font-weight:800;font-size:1.05rem;margin-bottom:3px">Priya Sharma</h3>
+                        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">AC Technician · 5 saal</p>
+                        <div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:14px"><span
+                                class="badge badge-confirm">Verified ✓</span><span class="badge badge-complete">Top
+                                Rated ★</span></div>
+                        <button class="btn btn-ghost" style="width:100%"
+                            onclick="toast('Photo update feature coming soon!','info')"><i class="fas fa-camera"></i>
+                            Photo Change</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Profile Edit Karo</div>
+                        <div class="card-sub">Sab fill karke save karo</div>
+                        <form onsubmit="saveProfile(event)">
+                            <div class="form-row">
+                                <div class="form-group"><label class="form-label">Pura Naam</label><input
+                                        class="form-input" value="Priya Sharma"></div>
+                                <div class="form-group"><label class="form-label">Mobile</label><input
+                                        class="form-input" value="+91 87654 32100"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label class="form-label">Email</label><input class="form-input"
+                                        type="email" value="priya@example.com"></div>
+                                <div class="form-group"><label class="form-label">City</label><input class="form-input"
+                                        value="Surat, Gujarat"></div>
+                            </div>
+                            <div class="form-group"><label class="form-label">Main Service</label><input
+                                    class="form-input" value="AC Repair & Service"></div>
+                            <div class="form-row">
+                                <div class="form-group"><label class="form-label">Experience</label><input
+                                        class="form-input" value="5 saal"></div>
+                                <div class="form-group"><label class="form-label">Service Radius (km)</label><input
+                                        class="form-input" type="number" value="15"></div>
+                            </div>
+                            <div class="form-group"><label class="form-label">Bio</label><textarea class="form-input"
+                                    rows="3"
+                                    style="resize:vertical">5 saal se AC repair karta hoon. Surat area mein available hoon.</textarea>
+                            </div>
+                            <div style="display:flex;gap:8px">
+                                <button type="submit" class="btn btn-start btn-lg"><i class="fas fa-save"></i> Save
+                                    Karo</button>
+                                <button type="button" class="btn btn-ghost btn-lg"
+                                    onclick="toast('Changes cancel ho gaye','info')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-page" id="page-settings">
+                <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:3px">Settings</h2>
+                <p style="color:var(--muted);font-size:.83rem;margin-bottom:18px">Preferences manage karo</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="settings-grid">
+                    <div class="card">
+                        <div class="card-title" style="margin-bottom:14px">Notifications</div>
+                        <div class="toggle-row">
+                            <div>
+                                <div class="t-name">New Booking Alert</div>
+                                <div class="t-desc">Nayi booking par notify karo</div>
+                            </div>
+                            <div class="toggle-sw on" onclick="toggleSW(this,'Booking Alert')"></div>
+                        </div>
+                        <div class="toggle-row">
+                            <div>
+                                <div class="t-name">Payment Received</div>
+                                <div class="t-desc">Payment aane par SMS</div>
+                            </div>
+                            <div class="toggle-sw on" onclick="toggleSW(this,'Payment Alert')"></div>
+                        </div>
+                        <div class="toggle-row">
+                            <div>
+                                <div class="t-name">New Review</div>
+                                <div class="t-desc">Review aane par notify</div>
+                            </div>
+                            <div class="toggle-sw" onclick="toggleSW(this,'Review Alert')"></div>
+                        </div>
+                        <div class="toggle-row">
+                            <div>
+                                <div class="t-name">WhatsApp Alerts</div>
+                                <div class="t-desc">WhatsApp par updates</div>
+                            </div>
+                            <div class="toggle-sw on" onclick="toggleSW(this,'WhatsApp')"></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title" style="margin-bottom:14px">Availability</div>
+                        <div class="toggle-row">
+                            <div>
+                                <div class="t-name">Available Now</div>
+                                <div class="t-desc">Customers online dekh sakte hain</div>
+                            </div>
+                            <div class="toggle-sw on" id="avail-sw" onclick="toggleAvail(this)"></div>
+                        </div>
+                        <div class="toggle-row">
+                            <div>
+                                <div class="t-name">Emergency Jobs</div>
+                                <div class="t-desc">Urgent requests accept karna</div>
+                            </div>
+                            <div class="toggle-sw on" onclick="toggleSW(this,'Emergency')"></div>
+                        </div>
+                        <div class="toggle-row">
+                            <div>
+                                <div class="t-name">Weekend Work</div>
+                                <div class="t-desc">Sat-Sun bookings</div>
+                            </div>
+                            <div class="toggle-sw" onclick="toggleSW(this,'Weekend')"></div>
+                        </div>
+                        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+                            <p class="form-label" style="margin-bottom:8px">Service Radius</p>
+                            <input type="range" min="5" max="50" value="15" style="width:100%;accent-color:var(--blue)"
+                                oninput="document.getElementById('rad-lbl').textContent=this.value+' km radius'">
+                            <p style="font-size:.8rem;color:var(--blue);font-weight:700;margin-top:3px" id="rad-lbl">15
+                                km radius</p>
+                        </div>
+                    </div>
+                    <div class="card" style="grid-column:1/-1">
+                        <div class="card-title" style="margin-bottom:14px">Account Actions</div>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap">
+                            <button class="btn btn-ghost btn-lg"
+                                onclick="toast('Password reset email bhej diya!','info')"><i class="fas fa-key"></i>
+                                Password Change</button>
+                            <button class="btn btn-ghost btn-lg"
+                                onclick="toast('Bank account update ho gaya!','success')"><i
+                                    class="fas fa-university"></i> Bank Account</button>
+                            <button class="btn btn-ghost btn-lg"
+                                onclick="toast('Support ko message bhej diya','info')"><i class="fas fa-headset"></i>
+                                Support</button>
+                            <button class="btn btn-lg"
+                                style="background:#fff5f5;color:var(--red);border:1.5px solid #fca5a5"
+                                onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="mo" onclick="closeModal(event)">
+        <div class="modal">
+            <h3 id="m-title">Confirm</h3>
+            <p id="m-body">Sure?</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+                <button class="btn" id="m-ok" onclick="doModalOk()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script src="./assets/js/script.js"></script>
+
+</body>
+
+</html>
